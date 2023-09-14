@@ -1,0 +1,3 @@
+An entity represents a table inside the database
+
+Each of the entity properties represents a column inside that database
