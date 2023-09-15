@@ -1,0 +1,5 @@
+DbContext: 
+    - A DbContext instance represents a session with the database and can be used to query and save instances of your entities. 
+    - Responsible for interacting with the database
+    - DbContext is a combination of the Unit Of Work and Repository patterns.
+

@@ -1,5 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AuctionService.Entities;
 
+// specify the name of the table we want to create for item in the database
+[Table("Items")]
 public class Item {
     public Guid Id{get; set;}
 
@@ -16,7 +20,7 @@ public class Item {
     public string ImageUrl {get; set;}
 
     // nav properties
-    public Aunction Auction {get; set;}
+    public Auction Auction {get; set;}
 
     public Guid AuctionId {get; set;}
 

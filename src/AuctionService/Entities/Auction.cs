@@ -1,6 +1,6 @@
 namespace AuctionService.Entities;
 
-public class Aunction {
+public class Auction {
 
     // create entity properties/columns of the 
 
@@ -11,7 +11,7 @@ public class Aunction {
 
     public string Seller{get; set;}
 
-    public string Wiiner{get; set;}
+    public string Winner{get; set;}
 
     //optional
     public int? SoldAmount{get; set;}
