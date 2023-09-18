@@ -9,4 +9,3 @@ services:
       - pdgata:/var/lib/postgresql/data
 volumes:
   pdgata:
-    

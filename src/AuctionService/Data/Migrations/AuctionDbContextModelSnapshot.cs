@@ -84,8 +84,8 @@ namespace AuctionService.Data.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("text");
 
-                    b.Property<string>("Year")
-                        .HasColumnType("text");
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -11,7 +11,7 @@ public class Item {
 
     public string Model {get; set;}
 
-    public string Year {get; set;}
+    public int Year {get; set;}
 
     public string Color {get; set;}
 
