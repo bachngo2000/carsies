@@ -1,8 +1,9 @@
 namespace AuctionService.Entities;
 
+// Auction is a table in the AuctionService database
 public class Auction {
 
-    // create entity properties/columns of the 
+    // define entity properties/columns of the Auction table
 
     // primary key for the table
     public Guid Id {get; set;}

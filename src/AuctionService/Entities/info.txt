@@ -2,7 +2,7 @@ An entity represents a table inside the database
 
 Each of the entity properties represents a column inside that database
 
-Currently, there are 3 entity properties (columns) in our Auction Service database: Auction, Item, and Status
+Currently, there are 3 entities (tables) in our Auction Service database: Auction, Item, and Status
 
 Enum vs Class vs Constants: https://www.section.io/engineering-education/c-sharp-enums/
 
