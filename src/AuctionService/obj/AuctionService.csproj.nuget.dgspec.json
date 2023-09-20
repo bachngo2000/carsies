@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj": {}
+    "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj": {}
   },
   "projects": {
-    "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj": {
+    "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj",
+        "projectUniqueName": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj",
         "projectName": "AuctionService",
-        "projectPath": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj",
+        "projectPath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\AuctionService.csproj",
         "packagesPath": "C:\\Users\\bachn\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\obj\\",
+        "outputPath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\AuctionService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bachn\\AppData\\Roaming\\NuGet\\NuGet.Config",
