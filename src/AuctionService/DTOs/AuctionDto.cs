@@ -1,6 +1,6 @@
 namespace AuctionService.DTOs;
 public class AuctionDto
-{
+{   // combination of most of the properties of the Auction and Item entities
     public Guid Id {get; set;}
 
     public int ReservePrice{get; set;} = 0;

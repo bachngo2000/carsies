@@ -8,3 +8,7 @@ Right now, our web API exposes the database entities to the client. The client r
     Decouple your service layer from your database layer.
     
 To accomplish this, you can define a data transfer object (DTO). A DTO is an object that defines how the data will be sent over the network.
+
+In this project, what we want to return from our API endpoints, in terms of an AuctionDTO, effectively, this is just the auction and the item mostly combined.
+
+AuctionDTO is an object that's been flattended into a single object from the auction and item objects =? go from our auction and item entities into an AuctionDTO

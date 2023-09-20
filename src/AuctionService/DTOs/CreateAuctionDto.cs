@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AuctionService.DTOs;
 
+// To create an auctionDto, we'll need the properties that we require from the user when they attempt to create an auction
 public class CreateAuctionDto
 {   [Required]
     public string Make {get; set;}

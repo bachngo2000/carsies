@@ -1,28 +1,36 @@
-
 using AuctionService.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Data;
 
+// seed the database with data
 public class DbInitializer
-{
-    public static void InitDb(WebApplication app) {
 
+{   //we need to get access to our DBContext before we can add data to it
+    public static void InitDb(WebApplication app) 
+    {
+        // create a scope for the service
+        // the 'using' keyword allows the framework once we're finished with this method, to dispose of any of the services we've used inside this scope we created
         using var scope = app.Services.CreateScope();
 
+        //get hold of our AuctionDBContext 
         SeedData(scope.ServiceProvider.GetService<AuctionDbContext>());
 
     }
 
     private static void SeedData(AuctionDbContext context)
-    {
-        context.Database.Migrate();
+    {   // now that we have a context, we can do smth with the database
 
+        // Applies any pending migrations for the context to the database. Will create the database if it does not already exist.
+        context.Database.Migrate();
+        
+        // check if we already have any auctions in our database
         if (context.Auctions.Any()) {
             Console.WriteLine("Already have data - no need to seed");
             return;
         }
 
+        // define some auctions
         var auctions = new List<Auction>() {
 
             // 1 Ford GT
