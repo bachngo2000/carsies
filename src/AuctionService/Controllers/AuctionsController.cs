@@ -95,4 +95,33 @@ public class AuctionsController : ControllerBase
         return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, _mapper.Map<AuctionDto>(auction));
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto)
+    {   
+        // first, we go and get the auction from the database
+        // we need to include the items b/c we're updating the car properties in this
+        var auction = await _context.Auctions.Include(x => x.Item)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        // check if the auction exists
+        if (auction == null) return NotFound();
+
+        // TODO: check seller == username
+
+        // From here, all we want to do is update the current properties of the auctions to the updated properties in the updateAuctionDto or if that's not provided, we want to keep the original property of the entity.
+        // So we're going to say the auction.Item.Make is equal to the updateAuctionDto.Make and if that's null or undefined, then we're going to use the null conditional Operator ?? and we're going to set the auction.Item.Make to what it was inside the entity.
+        auction.Item.Make = updateAuctionDto.Make ?? auction.Item.Make;
+        auction.Item.Model = updateAuctionDto.Model ?? auction.Item.Model;
+        auction.Item.Color = updateAuctionDto.Color ?? auction.Item.Color;
+        auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
+        auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
+
+        // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to tru
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (result) return Ok();
+
+        return BadRequest("Problem saving changes");
+    }
+
 }
