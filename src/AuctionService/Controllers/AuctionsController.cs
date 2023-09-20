@@ -64,4 +64,35 @@ public class AuctionsController : ControllerBase
         return _mapper.Map<AuctionDto>(auction);
     }
 
+    [HttpPost]
+    public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto) {
+
+        // first, we map the CreateAuctionDto auctionDto into an Auction entity & we can use Automapper for that
+        // So we'll specify what we want to map into. So this is going to be Auction to represent the Auction entity. And we can pass it the auctionDto
+        var auction = _mapper.Map<Auction>(auctionDto);
+
+        //TODO: add current user as seller
+
+        auction.Seller = "test";
+
+        // we can then add the auction using entity framework.
+        // And what's happening here is entity framework is effectively tracking this in memory. So nothing's been saved to the database at this point. This is simply being added to memory and entity framework is tracking this because it is an entity
+        _context.Auctions.Add(auction);
+
+        // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to true
+        var result = await _context.SaveChangesAsync() > 0;
+
+        // So we'll check the results and we'll say if result is not greater than 0, then we'll simply return a bad request. And we'll say could not save changes to the DB
+        if (!result) {
+            return BadRequest("Could not save changes to the DB");
+        }
+
+        //And what we want to return from a post request is what we should return is an Http with a status code of 201 created to say that we've created a resource and we also need to tell the client where the resource was created at. 
+        // So we have a method inside here that we can use to do such a thing. And what we'll return is a CreatedAtAction. And we can specify the name of the action where this resource can be found. 
+        // So in this case, we've got a method here called GetAuctionById, and this is the location we would want to send back in the header to tell the client that, Hey, yes, we've created your resource and this is the location you can get your resource. 
+        // So this particular endpoint is where we'd want them to know about if they wanted to get the resource that's been created. So we can specify a name of and get auction by ID. And this particular method, this takes an argument of the Guid of the auction so we can specify as a second parameter in the created at action, we can specify new and then we can simply specify the auction ID as the parameter that's needed for this particular action or endpoint. 
+        // And then as a third parameter, we can return the AuctionDto. So in order to return an AuctionDto from this, we need to go from our Auction entity into an AuctionDto. So once again, we'll utilize mapper functionality for this and we'll map into an AuctionDto from the Auction
+        return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, _mapper.Map<AuctionDto>(auction));
+    }
+
 }
