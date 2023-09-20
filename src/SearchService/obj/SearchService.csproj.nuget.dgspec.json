@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj": {}
+    "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj": {}
   },
   "projects": {
-    "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj": {
+    "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
+        "projectUniqueName": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
         "projectName": "SearchService",
-        "projectPath": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
+        "projectPath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
         "packagesPath": "C:\\Users\\bachn\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\obj\\",
+        "outputPath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bachn\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z7PuYBj2ru8bT+adK3bPQexQrSPvfwzPhkxQP9BCdchNH+LOydyNgUn+cAtmAbMEKmoGnFtjCHw3qLejKf0v9w==",
+  "dgSpecHash": "ZmUC4rijFd/wm3qNm1B+h6XFI0Pnp+hg8cu03WTDyYpR43JB7ZM8fDRTbNBchOs9bCQYGYPGK8FYM0lZeDiyow==",
   "success": true,
-  "projectFilePath": "c:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
+  "projectFilePath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\SearchService\\SearchService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bachn\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\bachn\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
