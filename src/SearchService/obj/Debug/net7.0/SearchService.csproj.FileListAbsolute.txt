@@ -41,3 +41,6 @@ C:\Users\bachn\Microservices\Carauctions\src\SearchService\obj\Debug\net7.0\refi
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\obj\Debug\net7.0\SearchService.pdb
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\obj\Debug\net7.0\SearchService.genruntimeconfig.cache
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\obj\Debug\net7.0\ref\SearchService.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Http.Polly.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Polly.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Polly.Extensions.Http.dll
