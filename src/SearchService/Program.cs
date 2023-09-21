@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Data;
 using SearchService.Models;
+using SearchService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// add the AuctionSvcHttpClient service so we can request data from the Auction service
+builder.Services.AddHttpClient<AuctionSvcHttpClient>();
 
 var app = builder.Build();
 

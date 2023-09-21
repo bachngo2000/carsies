@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Models;
+using SearchService.Services;
 
 namespace SearchService.Data;
 public class DbInitializer
@@ -22,19 +23,36 @@ public class DbInitializer
         // count the number of auctions in our database
         var count = await DB.CountAsync<Item>();
 
-        if (count == 0)
-        {
-            Console.WriteLine("No data - will attempt to seed");
+        // if (count == 0)
+        // {
+        //     Console.WriteLine("No data - will attempt to seed");
 
-            var itemData = await File.ReadAllTextAsync("Data/auctions.json");
+        //     var itemData = await File.ReadAllTextAsync("Data/auctions.json");
 
-            var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
+        //     var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
 
-            // So this effectively is going to take that Json formatted document and effectively convert this into a list of items in .net format.
-            var items = JsonSerializer.Deserialize<List<Item>>(itemData, options);
+        //     // So this effectively is going to take that Json formatted document and effectively convert this into a list of items in .net format.
+        //     var items = JsonSerializer.Deserialize<List<Item>>(itemData, options);
 
-            await DB.SaveAsync(items);
-        }
+        //     await DB.SaveAsync(items);
+        // }
+
+        // using HTTP to get the data
+
+        // since we need access to our service, the AuctionSvcHttpClient service, and when we run our DBInitalizer, we're not able to inject anything into this, so we need to use using
+        using var scope = app.Services.CreateScope();
+
+        var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvcHttpClient>();
+
+        var items = await httpClient.GetItemsForSearchDb();
+
+        Console.WriteLine(items.Count + " returned from the auction service");
+
+        // check how many items we have
+        // we only make a call to the database if we actually have auctions to save
+        if (items.Count > 0) await DB.SaveAsync(items);
+
+
     }
 
 }

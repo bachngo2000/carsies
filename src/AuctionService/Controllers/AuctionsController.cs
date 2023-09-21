@@ -2,6 +2,7 @@ using AuctionService.Data;
 using AuctionService.DTOs;
 using AuctionService.Entities;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,18 +37,35 @@ public class AuctionsController : ControllerBase
     // an ActionResult lets us send back Http responses such as a 200 or a 404 not found. Inside the ActionResult, we're going to specify that 
     // we want to return a List of AuctionDto
     // Remember, we don't want to return an Auction object, but an AuctionDto object
+
+    // New Update: 3.31
+    // Rather than getting all the auctions every time the service starts up, it would be better to say, Hey, this is the latest auction I've got with the with an updated date of this. 
+    // Give me all the auctions you have after this particular date. So we're going to take in a date property as a query string inside the GetAllAuctions method.
     [HttpGet]
-    public async Task<ActionResult<List<AuctionDto>>> GetAllAuctions()
+    public async Task<ActionResult<List<AuctionDto>>> GetAllAuctions(string date)
     {   
+        var query = _context.Auctions.OrderBy(x => x.Item.Make).AsQueryable();
+
+        // check for the presence of the date
+        if (!string.IsNullOrEmpty(date))
+        {   
+            // in order to compare DateTime, we need to parse date, which is a string
+            // only return auctions whose updatedAt date are later than the date 
+            query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
+        }
+
         // we want to include or load our related properties here. And the related property is the item. So we're going to specify Include. 
         // And I'll specify that I want the X goes to X.item, so let's include it along with the auction. I'm going to specify some ordering just to give them some kind of order and I'm going to order by. The X goes to X.Item.Make. And I'll specify two list async.
-        var auctions = await _context.Auctions
-            .Include(x => x.Item)
-            .OrderBy(x => x.Item.Make)
-            .ToListAsync();
+        // var auctions = await _context.Auctions
+        //     .Include(x => x.Item)
+        //     .OrderBy(x => x.Item.Make)
+        //     .ToListAsync();
         
-        // to return, we'll use Automapper and we're going to say we want to map to a list of AuctionDtos. And get that from the auctions.
-        return _mapper.Map<List<AuctionDto>>(auctions);
+        // // to return, we'll use Automapper and we're going to say we want to map to a list of AuctionDtos. And get that from the auctions.
+        // return _mapper.Map<List<AuctionDto>>(auctions);
+
+        // 
+        return await query.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
     // create another endpoint so we can get an individual auction
