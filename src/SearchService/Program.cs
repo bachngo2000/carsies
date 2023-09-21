@@ -31,7 +31,7 @@ app.Lifetime.ApplicationStarted.Register(async() => {
     catch (Exception e)
     {
         Console.WriteLine(e);
-}   
+    }   
 });
 
 app.Run();
