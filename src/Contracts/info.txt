@@ -1,0 +1,6 @@
+AuctionCreated.cs, AuctionUpdated.cs, and AuctionDeleted.cs represent our different events that we're going to send onto the service bus
+
+So, we need to emit events for certain types and remember the goal of what we're doing here. These are often referred to as integration events
+because we want one service, in this case the Auction service, to send an event onto the service bus. And the goal of this is so that our search 
+service database is going to be eventually consistent with what's happening inside the Auction service. Remember, these are asynchronous messages. 
+We can't guarantee that they're going to arrive instantly in the Search service, nor can we guarantee the order they're going to arrive in either
