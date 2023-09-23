@@ -1,4 +1,5 @@
 using AuctionService.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 // builder is a WebApplicationBuilder
@@ -18,6 +19,14 @@ builder.Services.AddDbContext<AuctionDbContext>(opt => {
 
 // added AutoMapper as a service
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// added and configured MassTransit and RabbitMQ as a service as our service bus/message broker
+builder.Services.AddMassTransit(x => 
+{
+    x.UsingRabbitMq((context, cfg) => {
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 //build our application
 var app = builder.Build();

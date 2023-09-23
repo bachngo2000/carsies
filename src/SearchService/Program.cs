@@ -1,4 +1,5 @@
 using System.Net;
+using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
 using SearchService.Data;
@@ -15,6 +16,15 @@ builder.Services.AddControllers();
 // Due to the nature of synchronous http communication, in which both the Auction service and the Search service have to be available for the database of the search service to be populated.  If the Auction service is temporarily unavailable and then becomes available again, before adding http polling, the Search service only requests data once,
 // And what we can do is add a bit of resilience into our Http request inside our search service where we've got this. We would like this to repeat until such time as the data is available and we can get a successful response back from the Auction service, even if it's down for some time. Now there is an approach we can take using Http polling, which means our request is going to repeat and repeat and repeat until such time as it succeeds.
 builder.Services.AddHttpClient<AuctionSvcHttpClient>().AddPolicyHandler(GetPolicy());
+
+// added and configured MassTransit and RabbitMQ as a service as our service bus/message broker
+builder.Services.AddMassTransit(x => 
+{
+    x.UsingRabbitMq((context, cfg) => {
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 
 var app = builder.Build();
 
