@@ -3,6 +3,8 @@ using AuctionService.DTOs;
 using AuctionService.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,14 +24,19 @@ public class AuctionsController : ControllerBase
 
     private readonly IMapper _mapper;
 
+    private readonly IPublishEndpoint _publishEndpoint;
+
     // The way that dependency injection works is that when our framework creates a new instance of the AuctionsController, which it will do when it receives a request into this particular route of "api/auctions", 
     // then it's going to take a look at the arguments inside the AuctionsController and it's going to say, Right, okay, I see you want a dbcontext and a mapper and it's going to instantiate these classes and 
     // make them available inside here
-    public AuctionsController(AuctionDbContext context, IMapper mapper)
+    // inject IPublishEndpoint from MassTransit into the AuctionsController class to allow us to publish the message to the service bus
+    public AuctionsController(AuctionDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _context = context;  
 
         _mapper = mapper; 
+
+        _publishEndpoint = publishEndpoint;
     }
 
     // Now that we have that, let's create a couple of endpoints so that we can test our progress and we'll create an [HttpGet] because this is 
@@ -100,6 +107,13 @@ public class AuctionsController : ControllerBase
         // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to true
         var result = await _context.SaveChangesAsync() > 0;
 
+        // After saving changes to our database, we will wait until after we have the ID from the database, then we mapped the auction into an AuctionDto 
+        var newAuction = _mapper.Map<AuctionDto>(auction);
+
+        // publish to the service bus as an AuctionCreated object
+        await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
+
+
         // So we'll check the results and we'll say if result is not greater than 0, then we'll simply return a bad request. And we'll say could not save changes to the DB
         if (!result) {
             return BadRequest("Could not save changes to the DB");
@@ -110,7 +124,7 @@ public class AuctionsController : ControllerBase
         // So in this case, we've got a method here called GetAuctionById, and this is the location we would want to send back in the header to tell the client that, Hey, yes, we've created your resource and this is the location you can get your resource. 
         // So this particular endpoint is where we'd want them to know about if they wanted to get the resource that's been created. So we can specify a name of and get auction by ID. And this particular method, this takes an argument of the Guid of the auction so we can specify as a second parameter in the created at action, we can specify new and then we can simply specify the auction ID as the parameter that's needed for this particular action or endpoint. 
         // And then as a third parameter, we can return the AuctionDto. So in order to return an AuctionDto from this, we need to go from our Auction entity into an AuctionDto. So once again, we'll utilize mapper functionality for this and we'll map into an AuctionDto from the Auction
-        return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, _mapper.Map<AuctionDto>(auction));
+        return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, /*_mapper.Map<AuctionDto>(auction)*/ newAuction);
     }
 
     [HttpPut("{id}")]
