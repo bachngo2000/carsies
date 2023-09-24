@@ -44,3 +44,14 @@ C:\Users\bachn\Microservices\Carauctions\src\SearchService\obj\Debug\net7.0\ref\
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Http.Polly.dll
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Polly.dll
 C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Polly.Extensions.Http.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\MassTransit.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\MassTransit.Abstractions.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\MassTransit.RabbitMqTransport.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\RabbitMQ.Client.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\System.Text.Json.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Contracts.dll
+C:\Users\bachn\Microservices\Carauctions\src\SearchService\bin\Debug\net7.0\Contracts.pdb

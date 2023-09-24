@@ -2,6 +2,7 @@ using System.Net;
 using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
+using SearchService;
 using SearchService.Data;
 using SearchService.Services;
 
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// added AutoMapper as a service so we can map consumer objects
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // add the AuctionSvcHttpClient service so we can request data from the Auction service
 
 // Due to the nature of synchronous http communication, in which both the Auction service and the Search service have to be available for the database of the search service to be populated.  If the Auction service is temporarily unavailable and then becomes available again, before adding http polling, the Search service only requests data once,
@@ -19,7 +23,12 @@ builder.Services.AddHttpClient<AuctionSvcHttpClient>().AddPolicyHandler(GetPolic
 
 // added and configured MassTransit and RabbitMQ as a service as our service bus/message broker
 builder.Services.AddMassTransit(x => 
-{
+{   
+    // once we have a AuctionCreatedConsumer consumer, we need to tell MassTransit about it
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
+
+    x.SetEndpointNameFormatter( new KebabCaseEndpointNameFormatter("search", false));
+
     x.UsingRabbitMq((context, cfg) => {
         cfg.ConfigureEndpoints(context);
     });
