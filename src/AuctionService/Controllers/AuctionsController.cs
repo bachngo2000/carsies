@@ -150,6 +150,10 @@ public class AuctionsController : ControllerBase
         auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
         auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
+        // publish to the service bus as an AuctionUpdated object
+        // after updating the auction, we need to add the publish endpoint so that when we update the auction, we publish that endpoint. But I've got a mapping in here for the auction updated to go from the Auction entity to the AuctionUpdated
+        await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+
         // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to tru
         var result = await _context.SaveChangesAsync() > 0;
 
@@ -169,6 +173,8 @@ public class AuctionsController : ControllerBase
         // TODO: check seller == username
 
         _context.Auctions.Remove(auction);
+
+        await _publishEndpoint.Publish<AuctionDeleted>(new { Id = auction.Id.ToString() });
 
         var result = await _context.SaveChangesAsync() > 0;
 

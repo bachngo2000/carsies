@@ -22,5 +22,10 @@ public class MappingProfiles: Profile
         // So in order to publish the created aution to the service bus, first, we need to map it into a AuctionCreated object
         CreateMap<AuctionDto, AuctionCreated>();
 
+        // map Auction into AuctionUpdated, also included members b/c we're updating item properties
+        CreateMap<Auction, AuctionUpdated>().IncludeMembers(a => a.Item);
+        // map Item into AuctionUpdated
+        CreateMap<Item, AuctionUpdated>();
+
     }
 }

@@ -10,6 +10,9 @@ public class MappingProfiles : Profile
     public MappingProfiles() {
         // created a mapping from AuctionCreated to item in Search service
         CreateMap<AuctionCreated,  Item>();
+
+        CreateMap<AuctionUpdated,  Item>();
+
     }
 
 }
