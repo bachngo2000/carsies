@@ -30,6 +30,18 @@ builder.Services.AddMassTransit(x =>
     x.SetEndpointNameFormatter( new KebabCaseEndpointNameFormatter("search", false));
 
     x.UsingRabbitMq((context, cfg) => {
+
+        // Configure retry policies on a per-endpoint basis
+        // specify "search-auction-created" as the name of our endpoint
+        cfg.ReceiveEndpoint("search-auction-created", e => {
+            // So effectively we're going to try it five times and wait for five seconds between each interval.
+            // So this is only going to apply for the AuctionCreatedConsumer for this particular configuration.
+            e.UseMessageRetry(r => r.Interval(5,5));
+            // And we also need to specify which consumer we're configuring this for.
+            e.ConfigureConsumer<AuctionCreatedConsumer>(context);
+        });
+
+        // Now we've got this configure endpoints, which is just going to configure all the endpoints based on the consumers that we have based on this line "x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();"
         cfg.ConfigureEndpoints(context);
     });
 });
