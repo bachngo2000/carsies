@@ -1,4 +1,5 @@
 using AuctionService.Data;
+using AuctionService.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +23,25 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // added and configured MassTransit and RabbitMQ as a service as our service bus/message broker
 builder.Services.AddMassTransit(x => 
-{
+{   
+    // added and configured masstransit.entityframeworkcore package to set up an outbox to persist the outbox to our database
+    // And if the service bus is down, when we try and deliver a message, then it's going to store that message in the outbox in our database. And then once the service bus is available, it's going to attempt to deliver that message to the service bus.
+    x.AddEntityFrameworkOutbox<AuctionDbContext>(o => {
+
+        // specify a query delay of 10 seconds
+        // If the service bus is available, the message will be delivered immediately. But if it's not, then every 10s because of this configuration,
+        // it's going to attempt to look inside our outbox and see if there's anything that hasn't been delivered yet. Once the service bus is available and then we tell it which database we want to use and we want to use Postgres.
+        o.QueryDelay = TimeSpan.FromSeconds(10);
+
+        o.UsePostgres();
+
+        o.UseBusOutbox();
+
+    });
+
     x.UsingRabbitMq((context, cfg) => {
         cfg.ConfigureEndpoints(context);
+
     });
 });
 

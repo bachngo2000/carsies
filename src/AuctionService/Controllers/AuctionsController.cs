@@ -104,15 +104,17 @@ public class AuctionsController : ControllerBase
         // And what's happening here is entity framework is effectively tracking this in memory. So nothing's been saved to the database at this point. This is simply being added to memory and entity framework is tracking this because it is an entity
         _context.Auctions.Add(auction);
 
-        // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to true
-        var result = await _context.SaveChangesAsync() > 0;
-
+        // We re-arranged and moved the two statements below above the SaveChangeAsync() statement
+        // now we've added the outbox. This becomes part of our entity framework transaction so we can now move this up effectively and we're going to move the mapping functionality above the save changes. 
+        // And what's going to happen now is these are going to be treated like a transaction and either they all work or none of them work. And that means that if we try and publish a message to our outbox, which is what's going to happen if the service bus is down, if that fails, then the whole transaction fails. If the service bus is up, then that's fine. We just publish our message and it carries on as it normally would and gets delivered to the bus and we save the changes. And that's the reason why if one fails, they all fail, is because now we've got this code before the save changes. And because this is using entity framework, then it's part of the same transaction that we're saving to the database here.
         // After saving changes to our database, we will wait until after we have the ID from the database, then we mapped the auction into an AuctionDto 
         var newAuction = _mapper.Map<AuctionDto>(auction);
 
         // publish to the service bus as an AuctionCreated object
         await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
 
+        // now, we can actually save this to the database. We'll say greater than zero because this SaveChangesAsync method returns an integer for each change it was able to save in the database. If it returns zero, that means nothing was saved into our database and we know our result is going to be false. But if the changes were more than zero, then we can presume that was successful and this will evaluate to true
+        var result = await _context.SaveChangesAsync() > 0;
 
         // So we'll check the results and we'll say if result is not greater than 0, then we'll simply return a bad request. And we'll say could not save changes to the DB
         if (!result) {

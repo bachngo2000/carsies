@@ -1,4 +1,5 @@
 using AuctionService.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Data;
@@ -19,5 +20,18 @@ public class AuctionDbContext : DbContext
     // the table for Item as well as Auctions since they're related
     public DbSet<Auction> Auctions {get; set;}
 
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // add 3 tables into our database responsible for our outbox functionality
+        // these tables are what MassTransit needs to store our message that's waiting to be delivered to a service bus that's currently down. 
+        // And then once it's up, based on our configuration in the program class, it's going to take a look in that outbox every 10s and attempt to deliver the messages that are contained in there.
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+
+    }
+
+
 }
