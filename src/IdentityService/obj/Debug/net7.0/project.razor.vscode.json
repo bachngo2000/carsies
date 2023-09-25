@@ -24150,6 +24150,11 @@
       "FilePath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\IdentityService\\Pages\\Ciba\\All.cshtml",
       "TargetPath": "Pages\\Ciba\\All.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\IdentityService\\Pages\\Account\\Register\\Index.cshtml",
+      "TargetPath": "Pages\\Account\\Register\\Index.cshtml",
+      "FileKind": "mvc"
     }
   ]
 }
