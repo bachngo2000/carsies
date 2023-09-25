@@ -27,6 +27,10 @@ public class AuctionCreatedConsumer : IConsumer<AuctionCreated>
         // create an item from the message
         var item = _mapper.Map<Item>(context.Message);
 
+        if (item.Model == "Foo") {
+            throw new ArgumentException("Cannot sell cars with name of Foo");
+        }
+
         // save the item in the mongo database
         await item.SaveAsync();
     }
