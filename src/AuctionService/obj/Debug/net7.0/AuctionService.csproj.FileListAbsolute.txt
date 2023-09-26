@@ -49,3 +49,10 @@ C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Sys
 C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Contracts.dll
 C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Contracts.pdb
 C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\MassTransit.EntityFrameworkCoreIntegration.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\bachn\Microservices\Carauctions\src\AuctionService\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

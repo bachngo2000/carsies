@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +90,7 @@ public class AuctionsController : ControllerBase
         return _mapper.Map<AuctionDto>(auction);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto) {
 
@@ -96,9 +98,8 @@ public class AuctionsController : ControllerBase
         // So we'll specify what we want to map into. So this is going to be Auction to represent the Auction entity. And we can pass it the auctionDto
         var auction = _mapper.Map<Auction>(auctionDto);
 
-        //TODO: add current user as seller
-
-        auction.Seller = "test";
+        //add current user as seller
+        auction.Seller = User.Identity.Name;
 
         // we can then add the auction using entity framework.
         // And what's happening here is entity framework is effectively tracking this in memory. So nothing's been saved to the database at this point. This is simply being added to memory and entity framework is tracking this because it is an entity
@@ -129,6 +130,7 @@ public class AuctionsController : ControllerBase
         return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, /*_mapper.Map<AuctionDto>(auction)*/ newAuction);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto)
     {   
@@ -140,7 +142,10 @@ public class AuctionsController : ControllerBase
         // check if the auction exists
         if (auction == null) return NotFound();
 
-        // TODO: check seller == username
+        // check seller == username
+        if (auction.Seller != User.Identity.Name) {
+            return Forbid();
+        }
 
         // From here, all we want to do is update the current properties of the auctions to the updated properties in the updateAuctionDto or if that's not provided, we want to keep the original property of the entity.
         // So we're going to say the auction.Item.Make is equal to the updateAuctionDto.Make and if that's null or undefined, then we're going to use the null conditional Operator ?? and we're going to set the auction.Item.Make to what it was inside the entity.
@@ -162,6 +167,7 @@ public class AuctionsController : ControllerBase
         return BadRequest("Problem saving changes");
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAuction(Guid id)
     {   
@@ -171,6 +177,9 @@ public class AuctionsController : ControllerBase
         if (auction == null) return NotFound();
 
         // TODO: check seller == username
+        if (auction.Seller != User.Identity.Name) {
+            return Forbid();
+        }
 
         _context.Auctions.Remove(auction);
 
