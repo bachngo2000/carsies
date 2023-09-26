@@ -68,3 +68,4 @@ C:\Users\bachn\Microservices\Carauctions\src\IdentityService\obj\Debug\net7.0\re
 C:\Users\bachn\Microservices\Carauctions\src\IdentityService\obj\Debug\net7.0\IdentityService.pdb
 C:\Users\bachn\Microservices\Carauctions\src\IdentityService\obj\Debug\net7.0\IdentityService.genruntimeconfig.cache
 C:\Users\bachn\Microservices\Carauctions\src\IdentityService\obj\Debug\net7.0\ref\IdentityService.dll
+C:\Users\bachn\Microservices\Carauctions\src\IdentityService\bin\Debug\net7.0\keys\is-signing-key-4FDB89E8A42B9CA598A9829144C54914.json
