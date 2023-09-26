@@ -2,6 +2,7 @@ using AuctionService;
 using AuctionService.Data;
 using AuctionService.Entities;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 // builder is a WebApplicationBuilder
@@ -51,10 +52,19 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.Authority = builder.Configuration["IdentityServiceUrl"];
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.TokenValidationParameters.NameClaimType = "username";
+    });
+
 //build our application
 var app = builder.Build();
 
 // Configure the HTTP request pipeline (The app's request handling pipeline is defined as a series of middleware components)
+app.UseAuthentication();
 
 // When a request comes into one of our API controllers, it goes through the HTTP request pipeline.  This gives us the option to add software or
 // middleware, which can then affect or do smth with that request in some way as it comes into our API server and leaves our API server
