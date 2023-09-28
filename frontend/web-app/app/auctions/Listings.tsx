@@ -1,4 +1,5 @@
 import React from 'react'
+import AuctionCard from './AuctionCard';
 
 // fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -24,7 +25,11 @@ export default async function Listings() {
 
   return (
     <div>
-        {JSON.stringify(data, null, 2)}
+        {/* make sure we have data coming back from our server.  Also, data.results is that's the object our auctions are coming back in.  */}
+        {/* Then, we map/loop through each auction inside the "results" object and return an Auction Card for each of these auctions that we have inside of results and give each card a key to uniquely identify them   */}
+        {data && data.results.map((auction: any) => (
+          <AuctionCard auction={auction} key={auction.id} />
+        ))}
     </div>
   )
 }
