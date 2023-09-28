@@ -31,6 +31,11 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) => {
 
+        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host => {
+            host.Username(builder.Configuration.GetValue("RabbitMq:Username", "guest"));
+            host.Password(builder.Configuration.GetValue("RabbitMq:Password", "guest"));
+        });
+
         // Configure retry policies on a per-endpoint basis
         // specify "search-auction-created" as the name of our endpoint
         cfg.ReceiveEndpoint("search-auction-created", e => {
