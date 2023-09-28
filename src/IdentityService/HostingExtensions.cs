@@ -28,6 +28,13 @@ internal static class HostingExtensions
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                // add configurations for Identity Server
+                // And what this effectively does, it means that every time a token is issued from Identity Server, it's going to have this hard coded in instead of whatever it was deemed to be issued from. In postman's case, it was localhost 5000. But instead it's going to have a token that has this as the issuer.
+                if (builder.Environment.IsEnvironment("Docker"))
+                {
+                    options.IssuerUri = "identity-svc";
+                }
+
                 // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                 // options.EmitStaticAudienceClaim = true;
             })
