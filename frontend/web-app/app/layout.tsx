@@ -1,4 +1,5 @@
 import './globals.css'
+import Navbar from './nav/Navbar'
 
 export const metadata = {
   title: 'Carauctions',
@@ -12,7 +13,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      {/* here is where all our React components go */}
+      <body>
+        <Navbar/>
+        <main className='container mx-auto px-5 pt-10'>
+          {children}
+        </main>
+      </body>
     </html>
   )
 }
