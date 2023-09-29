@@ -11,6 +11,7 @@ type State = {
     searchTerm: string
     searchValue: string
     orderBy: string
+    filterBy: string
 }
 
 // specify the type of actions that we're gonna support inside this store
@@ -28,7 +29,8 @@ const intialState: State = {
     pageCount: 1,
     searchTerm: '',
     searchValue: '',
-    orderBy: 'make'
+    orderBy: 'make',
+    filterBy: 'live'
 }
 
 // create our state store
