@@ -5,14 +5,15 @@ import React, { useState } from 'react'
 type Props = {
     currentPage: number
     pageCount: number
+    // function with page as a number type and the function returns void
+    pageChanged: (page: number) => void
 }
-export default function AppPagination({currentPage, pageCount}: Props) {
-    // use react state 
-    const [pageNumber, setPageNumber] = useState(currentPage);
+export default function AppPagination({currentPage, pageCount, pageChanged}: Props) {
+
   return (
     <Pagination
-        currentPage={pageNumber}
-        onPageChange={e => setPageNumber(e)}
+        currentPage={currentPage}
+        onPageChange={e => pageChanged(e)}
         totalPages={pageCount}
         layout='pagination'
         showIcons={true}

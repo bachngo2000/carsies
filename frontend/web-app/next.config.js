@@ -3,7 +3,8 @@ const nextConfig = {
     experimental:{
         logging:{
             level: 'verbose',
-        }
+        },
+        serverActions: true
     },
 
     images: {
