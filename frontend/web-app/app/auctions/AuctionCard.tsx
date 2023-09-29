@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import React from 'react'
 import CountdownTimer from './CountdownTimer'
+import CarImage from './CarImage'
 
 // specify what we're passing to the AuctionCard component
 // specify "any" as a temporary type for an auction
@@ -20,17 +20,20 @@ export default function AuctionCard({auction}: Props) {
     <a href='#'>
         <div className='w-full bg-gray-200 aspect-w-16 aspect-h-10 rounded-lg overflow-hidden'>
             <div>
-                <Image
+                {/* we want to add react state b/c we need to know if the image has been loaded or not and do something when the image's been loaded. Now, when it comes to using React State or any react hooks that we use, these are client side functionality. So we can't use a use state hook inside a server component. And currently our auction card that's deriving from our listings or is a child component of our listings. These are all server side components right now. So to keep these server components, we can add smaller client components that are added to a server component and we'll do that for our image here.*/}
+                {/* Therefore, we cut the Image here and create a separate CarImage functional component that represents it.  */}
+                {/* <Image
                     src={auction.imageUrl}
                     alt='image'
                     fill
                     priority
                     className='object-cover'
-                    sizes='(max-width:768px) 100vw, (max-width: 1200px) 50vw, 25vw'
-                />
+                    sizes='(max-width:768px) 100vw, (max-width: 1200px) 50vw, 25vw' />*/}
+                <CarImage imageUrl={auction.imageUrl}/>
                 <div className='absolute bottom-2 left-2'>
                     <CountdownTimer auctionEnd={auction.auctionEnd}/>
                 </div>
+                
             </div>
         </div>
         <div className='flex justify-between items-center mt-4'>
