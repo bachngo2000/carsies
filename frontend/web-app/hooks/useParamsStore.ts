@@ -10,6 +10,7 @@ type State = {
     pageCount: number
     searchTerm: string
     searchValue: string
+    orderBy: string
 }
 
 // specify the type of actions that we're gonna support inside this store
@@ -26,7 +27,8 @@ const intialState: State = {
     pageSize: 12,
     pageCount: 1,
     searchTerm: '',
-    searchValue: ''
+    searchValue: '',
+    orderBy: 'make'
 }
 
 // create our state store
