@@ -84,7 +84,7 @@ export default function Listings() {
 
   // if we have no data
   if (!data) {
-    return <h3>Loading...</h3>
+    return <h3>Loading car auctions...</h3>
   }
 
   useEffect
