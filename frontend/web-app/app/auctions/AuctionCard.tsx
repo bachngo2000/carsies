@@ -17,11 +17,12 @@ export default function AuctionCard({auction}: Props) {
   return (
     //  we know inside our props objects we have an auction
     //  make each card clickable.
-    <a href='#'>
+    // add className to our <a></a> tag as "group". And we can apply styling for this group inside another component so that when we hover over anything (images) inside this tag, that styling for this group will apply and we're going to use it inside our car image.
+    <a href='#' className='group'>
         <div className='w-full bg-gray-200 aspect-w-16 aspect-h-10 rounded-lg overflow-hidden'>
             <div>
                 {/* we want to add react state b/c we need to know if the image has been loaded or not and do something when the image's been loaded. Now, when it comes to using React State or any react hooks that we use, these are client side functionality. So we can't use a use state hook inside a server component. And currently our auction card that's deriving from our listings or is a child component of our listings. These are all server side components right now. So to keep these server components, we can add smaller client components that are added to a server component and we'll do that for our image here.*/}
-                {/* Therefore, we cut the Image here and create a separate CarImage functional component that represents it.  */}
+                {/* Therefore, we cut the Image here and create a separate client-side CarImage functional component that represents it so we can use React state.  */}
                 {/* <Image
                     src={auction.imageUrl}
                     alt='image'
