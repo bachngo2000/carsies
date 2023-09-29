@@ -1,10 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import AuctionCard from './AuctionCard';
-import { Auction } from '@/types';
+import { Auction, PagedResult } from '@/types';
 import AppPagination from '../components/AppPagination';
 import { getData } from '../actions/auctionActions';
 import Filters from './Filters';
+import { shallow } from 'zustand/shallow';
+import { useParamsStore } from '@/hooks/useParamsStore';
+import queryString from 'query-string';
 
 // fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -28,33 +31,59 @@ import Filters from './Filters';
 // to use the data returned from getData(), since this is no longer a server side function, we will remove the async keyword from it bc we're gonna use a useEffect inside here and normal promises rather than await
 export default function Listings() {
 
-  // store our auctions in auctions and we can specify the type of state that we're going to get here, and it's going to be an Auction array and we're going to start off with an empty array
-  const [auctions, setAuctions] = useState<Auction[]>([]);
-
-  const [pageCount, setPageCount] = useState(0);
-
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const [pageSize, setPageSize] = useState(4);
-
   // we need to store some states in our Listings component here for our pagination functionality to work b/c the getData() function above only gets called once, and so it only returns 4 auctions, but we want all 10 auctions
   // But React states require client side components, but Listings is currently a server side component.  Therefore, we will turn Listings into a client side component, but the getData() function above is a server-side function, so to continue using it, we will comment out the getData function above and make a new server side component for it, called auctionActions          
 
   // this allows us to do a side effect when the listings component first loads
   // and then depending on what happens, on what we're using inside this use effect, it may cause the component to rerender based on the code inside here
   // get the data out of what the getData() method returns
+  // store our auctions in auctions and we can specify the type of state that we're going to get here, and it's going to be an Auction array and we're going to start off with an empty array
+  // replace the local states with Zustand to manage states
+  // const [auctions, setAuctions] = useState<Auction[]>([]);
+
+  // const [pageCount, setPageCount] = useState(0);
+
+  // const [pageNumber, setPageNumber] = useState(1);
+
+  // const [pageSize, setPageSize] = useState(4);
+
+  // use useParamsStore
+  const[data, setData] = useState<PagedResult<Auction>>();
+  // get all of the params
+  // the shallow method ensures that we don't get all the states back 
+  const params = useParamsStore(state => ({
+    pageNumber: state.pageNumber,
+    pageSize: state.pageSize,
+    searchTerm: state.searchTerm
+
+  }), shallow)
+
+  // get the method to set params so that we can use it to set our page number that we're gonna pass down for our AppPagination
+  const setParams = useParamsStore(state => state.setParams);
+  const url = queryString.stringifyUrl({url: '', query: params})
+
+  //function to set the page number
+  function setPageNumber(pageNumber:number) {
+    // So this set params is going to go to our useParamsStore.ts and effectively the setParams function inside there is going to be executed because it is setting the page number, it's going to call the if statement rather than call the else statement
+    setParams({pageNumber})
+  }
+
+  // so with this new change using Zustand, when the URL changes, this useeffect is called and we go and get our new data with our new query string. And then we set the data in our local state here
   useEffect(() => {
-    getData(pageNumber, pageSize).then(data => {
-      setAuctions(data.results);
-      setPageCount(data.pageCount);
+    getData(/*pageNumber, pageSize*/ url).then(data => {
+      // setAuctions(data.results);
+      // setPageCount(data.pageCount);
+      setData(data);
     })
     // our effect needs to know what our dependecies are, so if we don't have any dependencies then we would use an empty array to say that this use effect is going to run once and only once ever. 
     // But if we do want this use effect to be called again, when something it depends on such as the page number changes, then we put the pageNumber in as a dependency as we are doing here.
     // And whenever the page number changes, use effect gets called again and our component gets re rendered with the updated results
     // the same applies to pageSize
-  }, [pageNumber, pageSize])
+    // replace pageNumber, pageSize with the url as our new depency
+  }, [/*pageNumber, pageSize*/ url])
 
-  if (auctions.length == 0) {
+  // if we have no data
+  if (!data) {
     return <h3>Loading...</h3>
   }
 
@@ -62,17 +91,17 @@ export default function Listings() {
   return (
     // use React fragment
     <>
-    <Filters pageSize={pageSize} setPageSize={setPageSize}/>
+    <Filters /*pageSize={pageSize} setPageSize={setPageSize}*/ />
       {/*use a grid to lay out the cards (4 per page and a gap of 6 between them) on our Listings page*/}
       <div className='grid grid-cols-4 gap-6'>
-        {/* Then, we map/loop through each auction inside the "actions" object and return an Auction Card for each of these auctions that we have inside of auctions and give each card a key to uniquely identify them   */}
-        {auctions.map((auction) => (
+        {/* Then, we map/loop through each auction inside the "data.results" object and return an Auction Card for each of these auctions that we have and give each card a key to uniquely identify them   */}
+        {data.results.map((auction) => (
           <AuctionCard auction={auction} key={auction.id} />
         ))}
       </div>
 
       <div className='flex justify-center mt-4'>
-        <AppPagination pageChanged={setPageNumber} currentPage={pageNumber} pageCount={pageCount}/>
+        <AppPagination pageChanged={setPageNumber} currentPage={/*pageNumber*/ params.pageNumber} pageCount={/*pageCount*/ data.pageCount}/>
       </div>
     </>
 

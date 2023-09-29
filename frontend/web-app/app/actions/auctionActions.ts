@@ -6,11 +6,11 @@ import { Auction, PagedResult } from "@/types";
 // added 'Promise<PagedResult<Auction>>' so getData() knows it returns a PagedResult of type auctions so we can use types with our data
 // we moved this function from Listings.tsx to here
 // specify params
-export async function getData(pageNumber: number, pageSize: number): Promise<PagedResult<Auction>> {
+export async function getData(query:string): Promise<PagedResult<Auction>> {
     // fetch caches the data that's coming back from our API
     // hardcoded the http we're gonna use, this needs to match our gateway service and search is the service that we're retrieving the data from
     // add the query string of "pageSize=${pageSize}" to allow users to specify how many auctions they want us to display in each page from our search database
-    const res = await fetch(`http://localhost:6001/search?pageSize=${pageSize}&pageNumber=${pageNumber}`);
+    const res = await fetch(`http://localhost:6001/search${query}`);
 
     if (!res.ok) {
         throw new Error('Failed to fetch data');
