@@ -8,6 +8,7 @@ import Filters from './Filters';
 import { shallow } from 'zustand/shallow';
 import { useParamsStore } from '@/hooks/useParamsStore';
 import queryString from 'query-string';
+import EmptyFilter from '../components/EmptyFilter';
 
 // fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -93,18 +94,25 @@ export default function Listings() {
   return (
     // use React fragment
     <>
-    <Filters /*pageSize={pageSize} setPageSize={setPageSize}*/ />
-      {/*use a grid to lay out the cards (4 per page and a gap of 6 between them) on our Listings page*/}
-      <div className='grid grid-cols-4 gap-6'>
-        {/* Then, we map/loop through each auction inside the "data.results" object and return an Auction Card for each of these auctions that we have and give each card a key to uniquely identify them   */}
-        {data.results.map((auction) => (
-          <AuctionCard auction={auction} key={auction.id} />
-        ))}
-      </div>
+      <Filters /*pageSize={pageSize} setPageSize={setPageSize}*/ />
+      {data.totalCount == 0 ? (
+        <EmptyFilter showReset/>
+      ) : (
+        <>
+          <div className='grid grid-cols-4 gap-6'>
+            {/* Then, we map/loop through each auction inside the "data.results" object and return an Auction Card for each of these auctions that we have and give each card a key to uniquely identify them   */}
+            {data.results.map((auction) => (
+              <AuctionCard auction={auction} key={auction.id} />
+             ))}
+          </div>
 
-      <div className='flex justify-center mt-4'>
-        <AppPagination pageChanged={setPageNumber} currentPage={/*pageNumber*/ params.pageNumber} pageCount={/*pageCount*/ data.pageCount}/>
-      </div>
+          {/*use a grid to lay out the cards (4 per page and a gap of 6 between them) on our Listings page*/}
+          <div className='flex justify-center mt-4'>
+            <AppPagination pageChanged={setPageNumber} currentPage={/*pageNumber*/ params.pageNumber} pageCount={/*pageCount*/ data.pageCount}/>
+          </div>
+        </>
+      )}
+      
     </>
 
   )
