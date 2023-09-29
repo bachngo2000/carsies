@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "flowbite-react": "^0.6.1",
     "next": "latest",
     "react": "latest",
     "react-countdown": "^2.3.5",
