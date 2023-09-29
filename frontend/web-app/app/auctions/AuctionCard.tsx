@@ -1,11 +1,12 @@
 import React from 'react'
 import CountdownTimer from './CountdownTimer'
 import CarImage from './CarImage'
+import { Auction } from '@/types'
 
 // specify what we're passing to the AuctionCard component
-// specify "any" as a temporary type for an auction
+// specify auction as type Auction
 type Props = {
-    auction: any
+    auction: Auction
 }
 
 // represents each auction we have
