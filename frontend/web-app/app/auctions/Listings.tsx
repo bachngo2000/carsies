@@ -4,6 +4,7 @@ import AuctionCard from './AuctionCard';
 import { Auction } from '@/types';
 import AppPagination from '../components/AppPagination';
 import { getData } from '../actions/auctionActions';
+import Filters from './Filters';
 
 // fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -34,6 +35,8 @@ export default function Listings() {
 
   const [pageNumber, setPageNumber] = useState(1);
 
+  const [pageSize, setPageSize] = useState(4);
+
   // we need to store some states in our Listings component here for our pagination functionality to work b/c the getData() function above only gets called once, and so it only returns 4 auctions, but we want all 10 auctions
   // But React states require client side components, but Listings is currently a server side component.  Therefore, we will turn Listings into a client side component, but the getData() function above is a server-side function, so to continue using it, we will comment out the getData function above and make a new server side component for it, called auctionActions          
 
@@ -41,14 +44,15 @@ export default function Listings() {
   // and then depending on what happens, on what we're using inside this use effect, it may cause the component to rerender based on the code inside here
   // get the data out of what the getData() method returns
   useEffect(() => {
-    getData(pageNumber).then(data => {
+    getData(pageNumber, pageSize).then(data => {
       setAuctions(data.results);
       setPageCount(data.pageCount);
     })
     // our effect needs to know what our dependecies are, so if we don't have any dependencies then we would use an empty array to say that this use effect is going to run once and only once ever. 
     // But if we do want this use effect to be called again, when something it depends on such as the page number changes, then we put the pageNumber in as a dependency as we are doing here.
     // And whenever the page number changes, use effect gets called again and our component gets re rendered with the updated results
-  }, [pageNumber])
+    // the same applies to pageSize
+  }, [pageNumber, pageSize])
 
   if (auctions.length == 0) {
     return <h3>Loading...</h3>
@@ -58,6 +62,7 @@ export default function Listings() {
   return (
     // use React fragment
     <>
+    <Filters pageSize={pageSize} setPageSize={setPageSize}/>
       {/*use a grid to lay out the cards (4 per page and a gap of 6 between them) on our Listings page*/}
       <div className='grid grid-cols-4 gap-6'>
         {/* Then, we map/loop through each auction inside the "actions" object and return an Auction Card for each of these auctions that we have inside of auctions and give each card a key to uniquely identify them   */}
