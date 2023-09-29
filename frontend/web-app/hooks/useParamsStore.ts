@@ -9,6 +9,7 @@ type State = {
     pageSize: number
     pageCount: number
     searchTerm: string
+    searchValue: string
 }
 
 // specify the type of actions that we're gonna support inside this store
@@ -16,6 +17,7 @@ type Actions = {
     // method to set params, and this is just the type of thing we're creating. So this is going to be called params and we're going to use it to update the state that we're storing inside here. But we want the ability just to update one thing at a time. And the way that we can make all of these properties optional without actually making them optional is to say that this params is going to be of partial
     setParams: (params: Partial<State>) => void
     reset: () => void
+    setSearchValue: (value: string) => void
 }
 
 // initial state for our store with initial values
@@ -23,7 +25,8 @@ const intialState: State = {
     pageNumber: 1,
     pageSize: 12,
     pageCount: 1,
-    searchTerm: ''
+    searchTerm: '',
+    searchValue: ''
 }
 
 // create our state store
@@ -52,5 +55,9 @@ export const useParamsStore = create<State & Actions>()((set) => ({
     },
 
     // this method allows us to update our States (pageNumber, pageSize, ...) inside our store
-    reset: () => set(intialState)
+    reset: () => set(intialState),
+
+    setSearchValue: (value: string) => {
+        set({searchValue: value})
+    }
 }))

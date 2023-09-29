@@ -9,19 +9,24 @@ export default function Search() {
   const setParams = useParamsStore(state => state.setParams);
 
   // using local state bc we need to track the state of what is being typed into the input field
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
+
+  const setSearchValue = useParamsStore(state => state.setSearchValue);
+  const searchValue = useParamsStore(state => state.searchValue);
 
   // function to track when the input is being typed into
   function onChange(event: any) {
     // event.target.value is the characters typed into the input field
-    setValue(event.target.value);
+    // setValue(event.target.value);
+    setSearchValue(event.target.value);
   }
 
   // function to submit the change
   function search() {
     // when this function is called, it updates our parameters, and inside our Listings.tsx components, then the URL that the useEffect() function depends on, our useEffect() 
     // is going to be called whenever this URL changes. And because we're getting our params inside here from the useParamsStore, this is going to react to the searchTerm changing, which means our URL is going to change, which means the useEffect() is going to be called with that updated URL, which will then in turn of course make the request to our search service and get the updated results back.
-    setParams({searchTerm: value});
+    // setParams({searchTerm: value});
+    setParams({searchTerm: searchValue});
   }
 
   return (
@@ -32,6 +37,7 @@ export default function Search() {
                 search()
               }
             }}
+            value={searchValue}
             onChange={onChange}
             type="text'"
             placeholder='Search for cars by make, model, or color'
