@@ -4,8 +4,13 @@ import React from 'react'
 import Search from './Search';
 import Logo from './Logo';
 import LoginButton from './LoginButton';
+import { getCurrentUser } from '../actions/authActions';
+import UserActions from './UserActions';
 
-export default function Navbar() {
+export default async function Navbar() {
+
+  const user = await getCurrentUser();
+
   return (
     // sticky, top-0, etc. are valid Tailwind CSS classes
     // we want our header to stick to the top of the screen, above all other contents, and our divs to be displayed in line and to spread across the top of our browser window
@@ -18,7 +23,11 @@ export default function Navbar() {
         </div>*/}
       <Logo/>
       <Search/>
-      <LoginButton/>
+      {user ? (
+        <UserActions/>
+      ) : (
+        <LoginButton />
+      )}
     </header>
   )
 }
