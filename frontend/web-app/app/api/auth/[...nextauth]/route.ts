@@ -1,11 +1,11 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
-import DuendeIdentityServer6 from "next-auth/providers/duende-identity-server6"
+import DuendeIdentityServer6 from "next-auth/providers/duende-identity-server6";
 
 
 export const authOptions: NextAuthOptions = {
     session: {
 
-        strategy: 'jwt'
+        strategy: 'jwt',
     },
 
     providers: [
@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
             clientSecret: 'secret',
             issuer: 'http://localhost:5000',
             authorization: {params: {scope: 'openid profile auctionApp'}},
-            idToken: true
+            idToken: true,
         })
     ]
 }
