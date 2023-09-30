@@ -2,6 +2,7 @@ import React from 'react'
 import CountdownTimer from './CountdownTimer'
 import CarImage from './CarImage'
 import { Auction } from '@/types'
+import Link from 'next/link'
 
 // specify what we're passing to the AuctionCard component
 // specify auction as type Auction
@@ -18,8 +19,8 @@ export default function AuctionCard({auction}: Props) {
   return (
     //  we know inside our props objects we have an auction
     //  make each card clickable.
-    // add className to our <a></a> tag as "group". And we can apply styling for this group inside another component so that when we hover over anything (images) inside this tag, that styling for this group will apply and we're going to use it inside our car image.
-    <a href='#' className='group'>
+    // add className to our <Link></Link> as "group". And we can apply styling for this group inside another component so that when we hover over anything (images) inside this tag, that styling for this group will apply and we're going to use it inside our car image.
+    <Link href={`/auctions/details/${auction.id}`} className='group'>
         <div className='w-full bg-gray-200 aspect-w-16 aspect-h-10 rounded-lg overflow-hidden'>
             <div>
                 {/* we want to add react state b/c we need to know if the image has been loaded or not and do something when the image's been loaded. Now, when it comes to using React State or any react hooks that we use, these are client side functionality. So we can't use a use state hook inside a server component. And currently our auction card that's deriving from our listings or is a child component of our listings. These are all server side components right now. So to keep these server components, we can add smaller client components that are added to a server component and we'll do that for our image here.*/}
@@ -44,6 +45,6 @@ export default function AuctionCard({auction}: Props) {
             </h3>
             <p className='font-semibold text-sm'>{auction.year}</p>
         </div>
-    </a>
+    </Link>
   )
 }
