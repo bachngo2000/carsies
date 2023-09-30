@@ -11,6 +11,7 @@ export async function getSession() {
 
 // retrieve the current logged in user
 export async function getCurrentUser() {
+    
     try {
         // get the current session
         const session = await getSession();
