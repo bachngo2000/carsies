@@ -24,7 +24,7 @@ export default async function Navbar() {
       <Logo/>
       <Search/>
       {user ? (
-        <UserActions/>
+        <UserActions user={user}/>
       ) : (
         <LoginButton />
       )}
