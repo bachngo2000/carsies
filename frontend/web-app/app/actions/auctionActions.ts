@@ -1,5 +1,6 @@
 'use server'
 import { Auction, PagedResult } from "@/types";
+import { getTokenWorkaround } from "./authActions";
 
 //fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -20,3 +21,25 @@ export async function getData(query:string): Promise<PagedResult<Auction>> {
 
     
 }
+
+export async function UpdateAuctionTest() {
+    const data = {
+        mileage: Math.floor(Math.random() * 100000) + 1
+    }
+
+    const token = await getTokenWorkaround();
+
+    const res = await fetch('http://localhost:6001/auctions/afbee524-5972-4075-8800-7d1f9d7b0a0c', {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ' + token?.access_token
+        },
+        body: JSON.stringify(data)
+    })
+
+    if (!res.ok) return {status: res.status, message: res.statusText}
+
+    return res.statusText;
+}
+
