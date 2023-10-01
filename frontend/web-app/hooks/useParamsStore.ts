@@ -12,6 +12,8 @@ type State = {
     searchValue: string
     orderBy: string
     filterBy: string
+    seller?: string
+    winner?: string
 }
 
 // specify the type of actions that we're gonna support inside this store
@@ -30,7 +32,9 @@ const intialState: State = {
     searchTerm: '',
     searchValue: '',
     orderBy: 'make',
-    filterBy: 'live'
+    filterBy: 'live',
+    seller: undefined,
+    winner: undefined
 }
 
 // create our state store
