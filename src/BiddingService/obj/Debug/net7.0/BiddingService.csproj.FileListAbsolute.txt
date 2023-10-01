@@ -55,3 +55,5 @@ C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\ref
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\BiddingService.pdb
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\BiddingService.genruntimeconfig.cache
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\ref\BiddingService.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Contracts.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Contracts.pdb

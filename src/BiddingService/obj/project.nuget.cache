@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QQ1jnbapO1DEdzb3LHI1KbBpFj2Hicz2MWtNMNeCxaxJxL3Aur9h3/ofXeAIGz6eXgTpLYAoRWObld3WJoiWEw==",
+  "dgSpecHash": "t0xIGqFNMt3C1Rbv2e3PKIpYksonO/dJGiScKsLke7ipdWpb9/OVbt/lDFZ5ogqg9IBTx1UUZXOFaqK3eh3XAw==",
   "success": true,
   "projectFilePath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\BiddingService\\BiddingService.csproj",
   "expectedPackageFiles": [
