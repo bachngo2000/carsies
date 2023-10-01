@@ -1,0 +1,3 @@
+The Bidding service is responsible for:
+    1. Tracking the auctions that have finished
+    2. Creating the event that notifies other services that an auction has finished
