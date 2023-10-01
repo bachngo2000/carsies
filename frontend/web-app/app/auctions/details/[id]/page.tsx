@@ -6,8 +6,7 @@ import CarImage from '../../CarImage';
 import DetailedSpecs from './DetailedSpecs';
 import { getCurrentUser } from '@/app/actions/authActions';
 import EditButton from './EditButton';
-// import EditButton from './EditButton';
-// import DeleteButton from './DeleteButton';
+import DeleteButton from './DeleteButton';
 
 export default async function Details({ params }: { params: { id: string } }) {
   const data = await getDetailedViewData(params.id);
@@ -21,6 +20,7 @@ export default async function Details({ params }: { params: { id: string } }) {
           {user?.username === data.seller && (
             <>
               <EditButton id={data.id} />
+              <DeleteButton id={data.id} />
             </>
 
           )}

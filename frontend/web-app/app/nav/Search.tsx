@@ -1,6 +1,7 @@
 'use client'
 import { useParamsStore } from '@/hooks/useParamsStore'
-import React, { useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation';
+import React from 'react'
 import {FaSearch} from 'react-icons/fa'
 
 export default function Search() {
@@ -14,6 +15,9 @@ export default function Search() {
   const setSearchValue = useParamsStore(state => state.setSearchValue);
   const searchValue = useParamsStore(state => state.searchValue);
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   // function to track when the input is being typed into
   function onChange(event: any) {
     // event.target.value is the characters typed into the input field
@@ -23,6 +27,11 @@ export default function Search() {
 
   // function to submit the change
   function search() {
+
+    if (pathname != '/') {
+      router.push('/');
+    }
+
     // when this function is called, it updates our parameters, and inside our Listings.tsx components, then the URL that the useEffect() function depends on, our useEffect() 
     // is going to be called whenever this URL changes. And because we're getting our params inside here from the useParamsStore, this is going to react to the searchTerm changing, which means our URL is going to change, which means the useEffect() is going to be called with that updated URL, which will then in turn of course make the request to our search service and get the updated results back.
     // setParams({searchTerm: value});
