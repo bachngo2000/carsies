@@ -1,5 +1,6 @@
 import './globals.css'
 import Navbar from './nav/Navbar'
+import ToasterProvider from './providers/ToasterProvider'
 
 export const metadata = {
   title: 'Carauctions',
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       {/* here is where all our React components go */}
       <body>
+        <ToasterProvider/>
         <Navbar/>
         <main className='container mx-auto px-5 pt-10'>
           {children}
