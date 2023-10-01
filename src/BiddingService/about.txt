@@ -1,3 +1,5 @@
 The Bidding service is responsible for:
     1. Tracking the auctions that have finished
     2. Creating the event that notifies other services that an auction has finished
+
+To give our users the abilities to create bids to our application, we'll do that in our Controllers
