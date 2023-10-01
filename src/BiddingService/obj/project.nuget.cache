@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "t0xIGqFNMt3C1Rbv2e3PKIpYksonO/dJGiScKsLke7ipdWpb9/OVbt/lDFZ5ogqg9IBTx1UUZXOFaqK3eh3XAw==",
+  "dgSpecHash": "ISa45Diri3vv37X8XvLzggIulyDoOUcreSqyCA8UspLJODS/1xvsHSitv6Lxjss1ugN/TDp8zofYx0gmm5lXiw==",
   "success": true,
   "projectFilePath": "C:\\Users\\bachn\\Microservices\\Carauctions\\src\\BiddingService\\BiddingService.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\bachn\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\bachn\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\bachn\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\bachn\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
     "C:\\Users\\bachn\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",

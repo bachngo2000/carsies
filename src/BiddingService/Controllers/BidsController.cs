@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
 
@@ -7,13 +8,19 @@ namespace BiddingService;
 [ApiController]
 [Route("api/[controller]")]
 public class BidsController : ControllerBase
-{
+{   
+    private readonly IMapper _mapper;
+
+    public BidsController(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
     // of type ActionResult and returns a Bid from this endpoint
     // we want this to be authenticated since we don't want anonymous users trying to create bids on auctions
     // to get to place a bid, then the request is eventually going to come through to API bids
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<Bid>> PlaceBid(string auctionId, int amount) {
+    public async Task<ActionResult<BidDto>> PlaceBid(string auctionId, int amount) {
 
         // get hold of the auction from our database
         // But we don't have any auctions in our bidding service and we're not going to seed any auctions into our bid service either. Now what we will do is we'll have a consumer. So when a new auction is created, then we're going to consume that event.
@@ -70,19 +77,19 @@ public class BidsController : ControllerBase
         // save our bid to the database
         await DB.SaveAsync(bid);
 
-        return Ok(bid);
+        return Ok(_mapper.Map<BidDto>(bid));
     }
 
     // return a list of bids for a particular auction based on its auctionId
     [HttpGet("{auctionId}")]
-    public async Task<ActionResult<List<Bid>>> GetBidsForAuction(string auctionId)
+    public async Task<ActionResult<List<BidDto>>> GetBidsForAuction(string auctionId)
     {
         var bids = await DB.Find<Bid>()
             .Match(a => a.AuctionId == auctionId)
             .Sort(b => b.Descending(a => a.BidTime))
             .ExecuteAsync();
 
-        return bids;
+        return bids.Select(_mapper.Map<BidDto>).ToList();
     }
 
 }

@@ -57,3 +57,5 @@ C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\Bid
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\obj\Debug\net7.0\ref\BiddingService.dll
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Contracts.dll
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Contracts.pdb
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
