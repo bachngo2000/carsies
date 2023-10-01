@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Contracts;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
@@ -10,10 +12,12 @@ namespace BiddingService;
 public class BidsController : ControllerBase
 {   
     private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public BidsController(IMapper mapper)
+    public BidsController(IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
     // of type ActionResult and returns a Bid from this endpoint
     // we want this to be authenticated since we don't want anonymous users trying to create bids on auctions
@@ -76,6 +80,9 @@ public class BidsController : ControllerBase
 
         // save our bid to the database
         await DB.SaveAsync(bid);
+
+        // publish our Bid Placed event to the RabbitMQ service bus when a bid is placed so our Auction service and Search service  becomes aware of our bids and get updated with the current high bid as long as the bid was accepted
+        await _publishEndpoint.Publish(_mapper.Map<BidPlaced>(bid));
 
         return Ok(_mapper.Map<BidDto>(bid));
     }
