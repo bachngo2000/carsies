@@ -66,6 +66,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "username";
     });
 
+// tell the Auction service about our new services that listen for our gRPC requests and send back the gRPC response
+builder.Services.AddGrpc();
+
+
 //build our application
 var app = builder.Build();
 
@@ -79,6 +83,9 @@ app.UseAuthorization();
 // middlware to map the controllers. Each one of our API controllers is going to have a route and this middleware allows the framework to direct the HTTP request
 // to the correct API endpoint
 app.MapControllers();
+
+// added a mapping for our new services that listen for our gRPC requests and send back the gRPC response
+app.MapGrpcService<GrpcAuctionService>();
 
 // we need to get hold our DBContext service
 try
