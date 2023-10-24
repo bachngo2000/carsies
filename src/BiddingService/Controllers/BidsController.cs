@@ -13,11 +13,14 @@ public class BidsController : ControllerBase
 {   
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly GrpcAuctionClient _grpcClient;
 
-    public BidsController(IMapper mapper, IPublishEndpoint publishEndpoint)
+    // inject GrpcAuctionClient to our BidsController
+    public BidsController(IMapper mapper, IPublishEndpoint publishEndpoint, GrpcAuctionClient grpcClient)
     {
         _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _grpcClient = grpcClient;
     }
     // of type ActionResult and returns a Bid from this endpoint
     // we want this to be authenticated since we don't want anonymous users trying to create bids on auctions
@@ -33,9 +36,15 @@ public class BidsController : ControllerBase
         // if we don't have an auction
         if (auction == null)
         {
-            // TODO: check with auction service if that has auction
+            // check with Auction service, through the gRPC Server, if it has auction
+            auction = _grpcClient.GetAuction(auctionId);
+
+            if (auction == null) {
+                return BadRequest("Cannot accept bids on this auction at this time");
+            }
+            
             // So in order to test our bidding functionality, we're going to actually need to at this stage because we don't have a way of going to our auction service yet and getting an auction if we don't have it in our database on this side in the bidding service. So we're going to need to create a consumer to get hold of and populate our database with a new auction when it is created.
-            return NotFound();
+            // return NotFound();
         }
 
         // check if the bidder is the seller of the auction

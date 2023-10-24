@@ -59,3 +59,7 @@ C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Con
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Contracts.pdb
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\AutoMapper.dll
 C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Google.Protobuf.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Grpc.Core.Api.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Grpc.Net.Client.dll
+C:\Users\bachn\Microservices\Carauctions\src\BiddingService\bin\Debug\net7.0\Grpc.Net.Common.dll

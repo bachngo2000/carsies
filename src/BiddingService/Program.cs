@@ -40,6 +40,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // add CheckAuctionFinished as a service 
 builder.Services.AddHostedService<CheckAuctionFinished>();
+// add GrpcAuctionClient as a scoped service
+builder.Services.AddScoped<GrpcAuctionClient>();
 
 var app = builder.Build();
 
