@@ -38,6 +38,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// add CheckAuctionFinished as a service 
+builder.Services.AddHostedService<CheckAuctionFinished>();
 
 var app = builder.Build();
 
