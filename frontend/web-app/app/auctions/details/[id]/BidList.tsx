@@ -72,15 +72,15 @@ export default function BidList({ user, auction }: Props) {
 
             <div className='px-2 pb-2 text-gray-500'>
                 {!open ? (
-                    <div className='flex items-center justify-center p-2 text-lg font-semibold'>
+                    <div className='flex items-center justify-center p-2 text-lg font-bold text-green-800'>
                         This auction has finished
                     </div>
                 ) : !user ? (
-                    <div className='flex items-center justify-center p-2 text-lg font-semibold'>
+                    <div className='flex items-center justify-center p-2 text-lg font-bold text-blue-700'>
                         Please login to make a bid
                     </div>
                 ) : user && user.username === auction.seller ? (
-                    <div className='flex items-center justify-center p-2 text-lg font-bold'>
+                    <div className='flex items-center justify-center p-2 text-lg font-bold text-red-700'>
                         You cannot bid on your own auction
                     </div>
                 ) : (
