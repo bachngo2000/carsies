@@ -66,3 +66,13 @@ export async function updateAuction(data: FieldValues, id: string) {
 export async function deleteAuction(id: string) {
     return await fetchWrapper.del(`auctions/${id}`);
 }
+
+// create a new server side function to go and get the bids for a particular auction that returns a promise that is going to be a Bid array
+export async function getBidsForAuction(id: string): Promise<Bid[]>  {
+    // get request
+    return await fetchWrapper.get(`bids/${id}`);
+}
+
+export async function placeBidForAuction(auctionId: string, amount: number) {
+    return await fetchWrapper.post(`bids?auctionId=${auctionId}&amount=${amount}`, {})
+}
