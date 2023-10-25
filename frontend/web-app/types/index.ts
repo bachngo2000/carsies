@@ -41,4 +41,4 @@ export type AuctionFinished = {
     winner?: string
     seller: string
     amount?: number
-  }
+}
