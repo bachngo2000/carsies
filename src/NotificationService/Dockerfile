@@ -1,13 +1,9 @@
-# get a base image to work from and we need the .Net SDK inside Docker to help us do that
-# get it from a public repo where Microsfot stores its Docker images for things like the SDK
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as build
-# working directory inside Docker
 WORKDIR /app
 EXPOSE 80
 
-# copy all .csproj files and restore as distinct layers.  Use of the same COPY command
+# copy all .csproj files and restore as distinct layers.   Use of the same COPY command
 # for every dockerfile in the project to take advantage of docker caching
-# taking the solution file from our development machine's file system and copying this file into our working directory inside Docker
 COPY Carsties.sln Carsties.sln
 COPY src/AuctionService/AuctionService.csproj src/AuctionService/AuctionService.csproj
 COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.csproj
@@ -17,23 +13,17 @@ COPY src/NotificationService/NotificationService.csproj src/NotificationService/
 COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
 
-# Restore package dependencies
+# Restore package deps
 RUN dotnet restore Carauctions.sln
 
-# copy the app folders over
+# Copy the app folders over
 COPY src/AuctionService src/AuctionService
-# do the same thing for the Contracts folder since the AuctionService file has dependencies in Contracts
 COPY src/Contracts src/Contracts
-
-# change the directory into this particular folder
 WORKDIR /app/src/AuctionService
-# publish our auction service applicationa and the published files are gonna be stored in the out directory
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
-# switch directort back to app
 WORKDIR /app
-# take all the content in build and put it into the out directory of our current working directory
 COPY --from=build /app/src/out .
-ENTRYPOINT ["dotnet", "AuctionService.dll"]
+ENTRYPOINT [ "dotnet", "NotificationService.dll" ]
