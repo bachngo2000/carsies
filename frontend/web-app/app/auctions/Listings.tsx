@@ -9,6 +9,7 @@ import { shallow } from 'zustand/shallow';
 import { useParamsStore } from '@/hooks/useParamsStore';
 import queryString from 'query-string';
 import EmptyFilter from '../components/EmptyFilter';
+import { useAuctionStore } from '@/hooks/useAuctionStore';
 
 // fetch our data using server side fetching, going from our NodeJS server to our API, come back to our NodeJS server. Our next JS server is going to get the data and then it's going to return that data to our React component
 // as HTML to the client. So the client is going to be completely unaware of where this data is coming from. As far as our client is concerned, this is coming from our client server, the next JS server.
@@ -32,6 +33,9 @@ import EmptyFilter from '../components/EmptyFilter';
 // to use the data returned from getData(), since this is no longer a server side function, we will remove the async keyword from it bc we're gonna use a useEffect inside here and normal promises rather than await
 export default function Listings() {
 
+  // add local state for loading
+  const [loading, setLoading] = useState(true);
+
   // we need to store some states in our Listings component here for our pagination functionality to work b/c the getData() function above only gets called once, and so it only returns 4 auctions, but we want all 10 auctions
   // But React states require client side components, but Listings is currently a server side component.  Therefore, we will turn Listings into a client side component, but the getData() function above is a server-side function, so to continue using it, we will comment out the getData function above and make a new server side component for it, called auctionActions          
 
@@ -49,7 +53,10 @@ export default function Listings() {
   // const [pageSize, setPageSize] = useState(4);
 
   // use useParamsStore
-  const[data, setData] = useState<PagedResult<Auction>>();
+  // Since we're storing our actions in local state, that's not helping us when it comes to updating these from another part of our application
+  // when it comes to the SignalR functionality we're gonna add, so we're creating a store (useAuctionStore.ts) to store our auctions
+  // update Listings to use our useAuctionStore store to store auctions instead of storing them in local state
+  // const[data, setData] = useState<PagedResult<Auction>>();
   // get all of the params
   // the shallow method ensures that we don't get all the states back 
   const params = useParamsStore(state => ({
@@ -62,6 +69,16 @@ export default function Listings() {
     winner: state.winner
 
   }), shallow)
+
+  // update Listings to use useAuctionStore to store auctions instead of storing them in local state using "const[data, setData] = useState<PagedResult<Auction>>()" like above
+  const data = useAuctionStore(state => ({
+    auctions: state.auctions,
+    totalCount: state.totalCount,
+    pageCount: state.pageCount
+  }), shallow);
+
+  // get the setData method from useAuctionStore
+  const setData = useAuctionStore(state => state.setData);
 
   // get the method to set params so that we can use it to set our page number that we're gonna pass down for our AppPagination
   const setParams = useParamsStore(state => state.setParams);
@@ -79,6 +96,9 @@ export default function Listings() {
       // setAuctions(data.results);
       // setPageCount(data.pageCount);
       setData(data);
+
+      // turn off our loading flag
+      setLoading(false);
     })
     // our effect needs to know what our dependecies are, so if we don't have any dependencies then we would use an empty array to say that this use effect is going to run once and only once ever. 
     // But if we do want this use effect to be called again, when something it depends on such as the page number changes, then we put the pageNumber in as a dependency as we are doing here.
@@ -87,8 +107,8 @@ export default function Listings() {
     // replace pageNumber, pageSize with the url as our new depency
   }, [/*pageNumber, pageSize*/ url])
 
-  // if we have no data
-  if (!data) {
+  // instead of checking if we have no data, we can check for loading
+  if (/*!data*/ loading) {
     return <h3>Loading car auctions...</h3>
   }
 
@@ -102,8 +122,8 @@ export default function Listings() {
       ) : (
         <>
           <div className='grid grid-cols-4 gap-6'>
-            {/* Then, we map/loop through each auction inside the "data.results" object and return an Auction Card for each of these auctions that we have and give each card a key to uniquely identify them   */}
-            {data.results.map((auction) => (
+            {/* Then, we map/loop through each auction inside the "data.auctions" object and return an Auction Card for each of these auctions that we have and give each card a key to uniquely identify them   */}
+            {data.auctions.map((auction) => (
               <AuctionCard auction={auction} key={auction.id} />
              ))}
           </div>
