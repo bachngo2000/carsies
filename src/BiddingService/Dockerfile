@@ -4,7 +4,7 @@ EXPOSE 80
 
 # copy all .csproj files and restore as distinct layers.   Use of the same COPY command
 # for every dockerfile in the project to take advantage of docker caching
-COPY Carsties.sln Carsties.sln
+COPY Carauctions.sln Carauctions.sln
 COPY src/AuctionService/AuctionService.csproj src/AuctionService/AuctionService.csproj
 COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.csproj
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj

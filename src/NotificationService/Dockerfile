@@ -4,7 +4,7 @@ EXPOSE 80
 
 # copy all .csproj files and restore as distinct layers.   Use of the same COPY command
 # for every dockerfile in the project to take advantage of docker caching
-COPY Carsties.sln Carsties.sln
+COPY Carauctions.sln Carauctions.sln
 COPY src/AuctionService/AuctionService.csproj src/AuctionService/AuctionService.csproj
 COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.csproj
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
@@ -17,9 +17,9 @@ COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityServ
 RUN dotnet restore Carauctions.sln
 
 # Copy the app folders over
-COPY src/AuctionService src/AuctionService
+COPY src/NotificationService src/NotificationService
 COPY src/Contracts src/Contracts
-WORKDIR /app/src/AuctionService
+WORKDIR /app/src/NotificationService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
