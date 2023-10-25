@@ -39,7 +39,6 @@ export default function SignalRProvider({ children }: Props) {
                         }
                         addBid(bid);
                     });
-
                 }).catch(error => console.log(error));
         }
 
