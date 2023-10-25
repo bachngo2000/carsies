@@ -1,5 +1,7 @@
 // we need to tell Nextjs that this is a client-side component. The issue this fixes here is that our React countdown is using some React client side code and this cannot be rendered on our server and then returned as HTML. This is client side functionality. Our browser needs to do something with this JavaScript that it's trying to work with, but effectively it can't do anything like this. What we need to do for this situation is we need to go to our countdown timer and we need to use the use client because that's where this functionality is going to need to take place on the client browser.
 'use client'
+import { useBidStore } from '@/hooks/useBidStore';
+import { usePathname } from 'next/navigation';
 import React from 'react'
 import Countdown, { zeroPad } from 'react-countdown';
 
@@ -11,6 +13,7 @@ type Props = {
 // Renderer callback with condition
 // specify types for input data
 const renderer = ({ days, hours, minutes, seconds, completed }:{days: number, hours: number, minutes: number, seconds: number, completed: boolean}) => {
+
     return (
         // these styles in clasname (border-2 border-white text-white py-1 px-2 rounded-lg flex justify-center) apply to our div regardless of the conditional logics
         // use conditional logic inside our classname with back ticks
@@ -38,10 +41,21 @@ const renderer = ({ days, hours, minutes, seconds, completed }:{days: number, ho
 
 // add our props 
 export default function CountdownTimer({auctionEnd}: Props) {
+
+    const setOpen = useBidStore(state => state.setOpen);
+
+    const pathname = usePathname();
+
+    function auctionFinished() {
+        if (pathname.startsWith('/auctions/details')) {
+          setOpen(false)
+        }
+    }
+
   return (
     <div>
         {/* pass into the Countdown component from the react countdown library the date that it's counting down from and it's gonna be from our auction's EndDate  */}
-        <Countdown date={auctionEnd} renderer={renderer}/>
+        <Countdown date={auctionEnd} renderer={renderer} onComplete={auctionFinished}/>
     </div>
   )
 }
