@@ -73,6 +73,7 @@ export async function getBidsForAuction(id: string): Promise<Bid[]>  {
     return await fetchWrapper.get(`bids/${id}`);
 }
 
+// function that allows users to place/create bid for an auction
 export async function placeBidForAuction(auctionId: string, amount: number) {
     return await fetchWrapper.post(`bids?auctionId=${auctionId}&amount=${amount}`, {})
 }
